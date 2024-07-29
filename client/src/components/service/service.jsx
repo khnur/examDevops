@@ -1,5 +1,5 @@
 export default async function Service(request, content) {
-  const url = 'http://localhost:8081';
+  const url = 'http://localhost:80';
   const token = sessionStorage.getItem('token');
   try {
     if (request === 'sendInvaite') {
