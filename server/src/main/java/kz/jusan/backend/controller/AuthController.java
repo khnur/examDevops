@@ -51,7 +51,7 @@ public class AuthController {
             responseMessage.put("token", token);
             return new ResponseEntity<>(responseMessage, HttpStatus.OK);
         } catch (Exception e) {
-            responseMessage.put("Error", "There is no such user");
+            responseMessage.put("Error", e.getMessage());
             return new ResponseEntity<>(responseMessage, HttpStatus.NOT_FOUND);
         }
     }

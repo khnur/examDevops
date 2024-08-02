@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class UserService {
 
@@ -36,6 +38,6 @@ public class UserService {
                 return user;
             }
         }
-        return null;
+        throw new NoSuchElementException("User not found with username");
     }
 }

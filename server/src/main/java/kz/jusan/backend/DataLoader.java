@@ -6,6 +6,7 @@ import kz.jusan.backend.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ public class DataLoader {
             AttachmentRepository attachmentRepository,
             RoleRepository roleRepository,
             UserRepository userRepository,
-            UserProfileRepository userProfileRepository
+            UserProfileRepository userProfileRepository,
+            PasswordEncoder passwordEncoder
     ) {
         attachmentRepository.deleteAll();
         anketaRepository.deleteAll();
@@ -136,6 +138,10 @@ public class DataLoader {
                     .toList();
 
             userRepository.saveAll(userEntities);
+            userRepository.save(UserEntity.builder()
+                    .username("admin")
+                    .password(passwordEncoder.encode("admin"))
+                    .build());
         };
     }
 }
