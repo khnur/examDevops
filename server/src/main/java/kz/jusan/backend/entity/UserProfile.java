@@ -11,24 +11,29 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "profile")
+@Builder
 public class UserProfile {
     @Id
-    @Column(name = "iin")
+    @Column(
+            name = "iin",
+            unique = true,
+            nullable = false
+    )
     private String iin;
     private String fio;
     private String mobilePhone;
     private String email;
     private String factualCity;
 
-//    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "profile_anketa_entity",
-            joinColumns = @JoinColumn(name = "user_profile_iin"),
-            inverseJoinColumns = @JoinColumn(name = "anketa_entity_iin"))
+    @JoinColumn(
+            name = "anketa",
+            referencedColumnName = "iin"
+    )
     @JsonIgnore
     private AnketaEntity anketa;
 
-    @OneToOne(mappedBy = "userProfile")
+    @OneToOne(mappedBy = "userProfile", fetch = FetchType.LAZY)
     @JsonIgnore
     private UserEntity userEntity;
 }

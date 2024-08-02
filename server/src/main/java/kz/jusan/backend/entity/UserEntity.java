@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,14 +21,13 @@ public class UserEntity {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @JoinColumn(name = "role_id")
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
     private RoleEntity roleEntity;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "users_user_profile",
-            joinColumns = @JoinColumn(name = "user_entity_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_profile_iin"))
+    @JoinColumn(name = "profile", referencedColumnName = "iin")
+    @JsonIgnore
     private UserProfile userProfile;
 }
