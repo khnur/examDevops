@@ -50,7 +50,7 @@ public class DataLoader {
                     .toList();
             roleRepository.saveAll(roles);
 
-            List<AnketaEntity> anketaEntities = IntStream.range(0, 10)
+            List<AnketaEntity> anketaEntities = IntStream.range(0, 5)
                     .mapToObj(i -> AnketaEntity.builder()
                             .iin(faker.idNumber().valid())
                             .previousName(faker.name().fullName())
@@ -114,15 +114,6 @@ public class DataLoader {
                             .build())
                     .toList();
 
-            List<UserEntity> userEntities = IntStream.range(0, 5)
-                    .mapToObj(i -> UserEntity.builder()
-                            .username(faker.name().username())
-                            .password(faker.internet().password())
-                            .roleEntity(roles.get(faker.random().nextInt(roles.size())))
-                            .userProfile(null)
-                            .build())
-                    .toList();
-
             List<UserProfile> userProfiles = IntStream.range(0, 5)
                     .mapToObj(i -> UserProfile.builder()
                             .iin(faker.idNumber().valid())
@@ -130,22 +121,21 @@ public class DataLoader {
                             .mobilePhone(faker.phoneNumber().phoneNumber())
                             .email(faker.internet().emailAddress())
                             .factualCity(faker.address().city())
-                            .anketa(anketaEntities.get(faker.random().nextInt(anketaEntities.size())))
-                            .userEntity(userEntities.get(i))
+                            .anketa(anketaEntities.get(i))
                             .build())
                     .toList();
 
-            userProfiles.forEach(profile -> {
-                userRepository.save(profile.getUserEntity());
-                anketaRepository.save(profile.getAnketa());
-            });
 
-            IntStream.range(0, userEntities.size()).forEach(i -> {
-                userEntities.get(i).setUserProfile(userProfiles.get(i));
-                anketaEntities.get(i % anketaEntities.size()).setUserProfile(userProfiles.get(i));
-            });
+            List<UserEntity> userEntities = IntStream.range(0, 5)
+                    .mapToObj(i -> UserEntity.builder()
+                            .username(faker.name().username())
+                            .password(faker.internet().password())
+                            .roleEntity(roles.get(faker.random().nextInt(roles.size())))
+                            .userProfile(userProfiles.get(i))
+                            .build())
+                    .toList();
 
-            userProfileRepository.saveAll(userProfiles);
+            userRepository.saveAll(userEntities);
         };
     }
 }
