@@ -10,7 +10,7 @@ const Report = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`http://localhost:8081/reports/${type}`);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL + `/reports/${type}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

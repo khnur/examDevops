@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: nurzhankhn/examdevops-server:v2
+        image: nurzhankhn/examdevops-server:v3
         ports:
         - containerPort: 8081
         env:

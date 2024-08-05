@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: nurzhankhn/examdevops-client:v8
+        image: nurzhankhn/examdevops-client:v10
         ports:
         - containerPort: 80
         env:
