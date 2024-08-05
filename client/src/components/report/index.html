@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reports</title>
+    <style>
+        .report-section {
+            margin-bottom: 20px;
+        }
+
+        .nested-report {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Reports</h1>
+<button onclick="fetchReport('nationality')">Generate Nationality Report</button>
+<button onclick="fetchReport('marital-status')">Generate Marital Status Report</button>
+<button onclick="fetchReport('car-ownership')">Generate Car Ownership Report</button>
+<button onclick="fetchReport('military-status')">Generate Military Status Report</button>
+<button onclick="fetchReport('svc-status')">Generate SVC Status Report</button>
+<button onclick="fetchReport('education-list-size')">Generate Education List Size Report</button>
+<button onclick="fetchReport('children-count')">Generate Children Count Report</button>
+<button onclick="fetchReport('combined')">Generate Combined Report</button>
+<div id="report"></div>
+
+<script>
+    function fetchReport(reportType) {
+        fetch(`http://localhost:8081/reports/${reportType}`)
+            .then(response => response.json())
+            .then(data => {
+                let reportDiv = document.getElementById('report');
+                reportDiv.innerHTML = `<h2>${reportType.replace('-', ' ').toUpperCase()} Report:</h2>`;
+                displayData(data, reportDiv);
+            })
+            .catch(error => console.error('Error fetching report:', error));
+    }
+
+    function displayData(data, container) {
+        if (Array.isArray(data)) {
+            data.forEach(item => {
+                let itemDiv = document.createElement('div');
+                itemDiv.classList.add('report-section');
+                itemDiv.innerHTML = `<p>${JSON.stringify(item, null, 2)}</p>`;
+                container.appendChild(itemDiv);
+            });
+        } else if (typeof data === 'object' && data !== null) {
+            for (const [key, value] of Object.entries(data)) {
+                let sectionDiv = document.createElement('div');
+                sectionDiv.classList.add('report-section');
+                sectionDiv.innerHTML = `<strong>${key}:</strong>`;
+                if (typeof value === 'object' && value !== null) {
+                    let nestedDiv = document.createElement('div');
+                    nestedDiv.classList.add('nested-report');
+                    displayData(value, nestedDiv);
+                    sectionDiv.appendChild(nestedDiv);
+                } else {
+                    sectionDiv.innerHTML += ` ${value}`;
+                }
+                container.appendChild(sectionDiv);
+            }
+        } else {
+            let paragraph = document.createElement('p');
+            paragraph.textContent = data;
+            container.appendChild(paragraph);
+        }
+    }
+</script>
+</body>
+</html>

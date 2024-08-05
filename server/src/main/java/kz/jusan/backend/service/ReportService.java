@@ -13,6 +13,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -136,5 +138,59 @@ public class ReportService {
         } catch (IOException e) {
             throw new IllegalStateException("Failed to generate Excel report", e);
         }
+    }
+
+    public Map<String, Long> generateNationalityReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(AnketaEntity::getNationality, Collectors.counting()));
+    }
+
+    public Map<String, Long> generateMaritalStatusReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(AnketaEntity::getMarriageStatus, Collectors.counting()));
+    }
+
+    public Map<Boolean, Long> generateCarOwnershipReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(AnketaEntity::isCarOwner, Collectors.counting()));
+    }
+
+    public Map<Boolean, Long> generateMilitaryStatusReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(AnketaEntity::isMilitary, Collectors.counting()));
+    }
+
+    public Map<Boolean, Long> generateSVCStatusReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(AnketaEntity::isSVC, Collectors.counting()));
+    }
+
+    public Map<Integer, Long> generateEducationListSizeReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(e -> e.getEducationList().size(), Collectors.counting()));
+    }
+
+    public Map<Integer, Long> generateChildrenCountReport() {
+        List<AnketaEntity> anketaEntities = anketaRepository.findAll();
+        return anketaEntities.stream()
+                .collect(Collectors.groupingBy(e -> e.getChilrenList() != null ? e.getChilrenList().size() : 0, Collectors.counting()));
+    }
+
+    public Map<String, Object> generateCombinedReport() {
+        return Map.of(
+                "nationalityReport", this.generateNationalityReport(),
+                "maritalStatusReport", this.generateMaritalStatusReport(),
+                "carOwnershipReport", this.generateCarOwnershipReport(),
+                "militaryStatusReport", this.generateMilitaryStatusReport(),
+                "svcStatusReport", this.generateSVCStatusReport(),
+                "educationListSizeReport", this.generateEducationListSizeReport(),
+                "childrenCountReport", this.generateChildrenCountReport()
+        );
     }
 }

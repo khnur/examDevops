@@ -36,6 +36,7 @@ public class RestConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .antMatchers("/actuator/*").permitAll()
+                .antMatchers("/reports/*").permitAll()
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 .antMatchers("/user/*").hasRole("USER")
                 .antMatchers("/api/v1/register", "/api/v1/auth", "/api/v1/**").permitAll()

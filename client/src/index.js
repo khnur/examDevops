@@ -12,6 +12,7 @@ import UploadFiles from "./components/pages/UploadFiles";
 import Admin from "./components/pages/Admin";
 import Developers from "./components/pages/DevelopersPage";
 import Profile from "./components/pages/Profile";
+import Report from "./components/report/Report";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,6 +28,7 @@ root.render(
         <Route path="/admin" element={<Admin />} />
         <Route path="/developers" element={<Developers />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </Router>
   </React.StrictMode>

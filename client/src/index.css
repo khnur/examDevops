@@ -688,3 +688,16 @@ a {
   margin-bottom: 25px !important;
   font-weight: bold;
 }
+
+.report-section {
+    margin-bottom: 20px;
+}
+
+.nested-report {
+    margin-left: 20px;
+}
+
+pre {
+    white-space: pre-wrap; /* To ensure JSON data is readable */
+    word-wrap: break-word; /* Handle long words */
+}
