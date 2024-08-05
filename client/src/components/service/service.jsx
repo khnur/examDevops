@@ -1,5 +1,6 @@
 export default async function Service(request, content) {
-  const url = 'http://localhost:80';
+  // const url = 'http://localhost:80';
+  const url = process.env.REACT_APP_SERVER_URL;
   const token = sessionStorage.getItem('token');
   try {
     if (request === 'sendInvaite') {

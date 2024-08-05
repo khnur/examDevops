@@ -7,6 +7,9 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 
+ARG REACT_APP_SERVER_URL
+ENV REACT_APP_SERVER_URL=http://localhost:8000
+
 COPY . ./
 RUN npm run build
 

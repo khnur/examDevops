@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: server
+        image: nurzhankhn/examdevops-server:v2
+        ports:
+        - containerPort: 8081
+        env:
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:postgresql://postgres-service:5432/hackathon
+          - name: SPRING_DATASOURCE_USERNAME
+            value: test
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: test
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: update
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  selector:
+    app: server
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
