@@ -16,7 +16,7 @@ spec:
       - name: client
         image: nurzhankhn/examdevops-client:v10
         ports:
-        - containerPort: 80
+        - containerPort: 3000
         env:
           - name: REACT_APP_SERVER_URL
             value: http://localhost:8000
@@ -31,6 +31,6 @@ spec:
     app: client
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 80
+      port: 3000
+      targetPort: 3000
   type: ClusterIP
